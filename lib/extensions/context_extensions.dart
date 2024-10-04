@@ -18,4 +18,6 @@ extension ContextExtension on BuildContext {
 
   bool get isDarkMode => read<ThemeService>().isDarkMode;
 
+  double get screenHeight => MediaQuery.of(this).size.height;
+
 }

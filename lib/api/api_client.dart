@@ -98,8 +98,12 @@ class ApiClient {
           return status >= 200 && status < 300 || status == 304;
         },
       ),
-    )..interceptors.add(
+    )
+      ..interceptors.add(
         LogInterceptor(requestBody: true, responseBody: true),
+      )
+      ..interceptors.add(
+        RequestInterceptor(),
       );
   }
 
@@ -107,10 +111,11 @@ class ApiClient {
       'or the server is sleeping please try again later...';
 }
 
-class RequestInterceptor extends RequestInterceptorHandler {
+class RequestInterceptor extends Interceptor {
   @override
-  void next(RequestOptions requestOptions) {
-    requestOptions.path = '${requestOptions.path}&appid=22a30be4d4f6e6923f70e06b00460fc8';
-    super.next(requestOptions);
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+    // TODO: implement onRequest
+    options.path = '${options.path}&appid=22a30be4d4f6e6923f70e06b00460fc8';
+    super.onRequest(options, handler);
   }
 }

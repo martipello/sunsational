@@ -4,6 +4,7 @@ import 'package:sunsational/extensions/context_extensions.dart';
 
 import '../ui/dashboard_page.dart';
 import '../ui/detail_page.dart';
+import '../ui/widgets/sunsational_dialog.dart';
 
 final rootNavigator = GlobalKey<NavigatorState>();
 
@@ -23,9 +24,19 @@ GoRouter router({String? initialRoute}) => GoRouter(
         GoRoute(
           path: kDetailPageRoute,
           name: kDetailPageName,
-          pageBuilder: (context, state) => const NoTransitionPage(
-            child: DetailPage(),
-          ),
+          pageBuilder: (context, state) {
+            final city = state.extra as String;
+            return NoTransitionPage(
+              child: DetailPage(city: city),
+            );
+          },
+        ),
+        GoRoute(
+          path: kDialogRoute,
+          pageBuilder: (context, state) {
+            final sunsationalDialogPageArguments = state.extra as SunsationalDialogPageArguments;
+            return SunsationalDialogPage(sunsationalDialogPageArguments);
+          },
         ),
       ],
       redirect: (context, state) async {

@@ -6,7 +6,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:sunsational/extensions/context_extensions.dart';
 
 import '../di/dependency_injection_container.dart' as di;
 import 'di/dependency_injection_container.dart';
@@ -14,7 +13,6 @@ import 'navigation/navigation_config.dart';
 import 'services/theme_service.dart';
 import 'theme/theme.g.dart';
 
-//ignore_for_file: avoid_classes_with_only_static_members
 class App {
   static void init() async {
     runZonedGuarded<Future<void>>(

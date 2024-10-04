@@ -56,6 +56,12 @@ class _DashboardState extends State<Dashboard> {
       decoration: const InputDecoration(
         labelText: 'Enter your location',
       ),
+      textInputAction: TextInputAction.send,
+      onFieldSubmitted: (value) {
+        if (formKey.currentState!.validate()) {
+          DetailPage.navigate(context);
+        }
+      },
       validator: (value) {
         if (value == null || value.isEmpty) {
           return 'Please enter your location';
@@ -67,6 +73,7 @@ class _DashboardState extends State<Dashboard> {
 
   Widget _buildSubmitButton(BuildContext context) {
     return IconButton(
+      tooltip: 'Submit',
       style: ButtonStyle(
         backgroundColor: WidgetStateProperty.all(context.colors.primary),
       ),

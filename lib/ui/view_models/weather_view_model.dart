@@ -19,6 +19,10 @@ class WeatherViewModel {
       final weatherResponse = await _weatherRepository.getWeather(city);
       _weatherStreamController.sink.add(OnComplete(weatherResponse));
     } catch (e) {
+      if (e is ErrorResponse) {
+        _weatherStreamController.sink.add(OnError(error: e));
+        return;
+      }
       _weatherStreamController.sink.add(
         OnError(
           error: ErrorResponse(

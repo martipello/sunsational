@@ -153,7 +153,7 @@ class SunsationalErrorWidget extends StatelessWidget {
           if (!isCompact) kMediumMargin,
           Flexible(
             child: Text(
-              errorMessage ?? 'Oops that\'s an error.',
+              errorMessage ?? 'Sorry that\'s an error.',
               style: isCompact ? context.text.bodySmall?.copyWith(color: context.colors.error) : null,
             ),
           ),

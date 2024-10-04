@@ -80,7 +80,7 @@ class SunsationalDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewConstraint(
       child: AlertDialog(
-        title: Text(title),
+        title: Text(title, style: context.text.headlineSmall),
         content: child,
         actions: _getActions(context),
       ),

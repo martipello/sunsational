@@ -31,7 +31,6 @@ class _DetailPageState extends State<DetailPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _weatherViewModel.fetchWeather(widget.city);
   }
@@ -59,7 +58,7 @@ class _DetailPageState extends State<DetailPage> {
                 message: message,
               ),
               OnComplete<WeatherResponse?>(data: final data) when data != null => _buildWeatherContent(data),
-              (_) => _buildError(message: 'This event may have been deleted.'),
+              (_) => _buildError(message: 'There was an error with the weather!'),
             };
           }
         ),

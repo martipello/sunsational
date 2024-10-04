@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sunsational/ui/widgets/theme_button.dart';
 
 const kDetailPageName = 'Detail';
 const kDetailPageRoute = '/detail';
@@ -23,6 +24,9 @@ class _DetailPageState extends State<DetailPage> {
         appBar: AppBar(
           automaticallyImplyLeading: true,
           title: const Text(kDetailPageName),
+          actions: const [
+            ThemeButton(),
+          ],
         ),
         body: const Placeholder(),
       ),

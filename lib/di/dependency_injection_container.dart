@@ -10,7 +10,6 @@ import '../ui/view_models/weather_view_model.dart';
 final getIt = GetIt.instance;
 
 Future<void> init() async {
-  getIt.registerLazySingletonAsync(SharedPreferences.getInstance);
   getIt.registerLazySingleton(
     () => ApiClient.initDioClient(
       'https://api.openweathermap.org/data/2.5',
@@ -18,8 +17,15 @@ Future<void> init() async {
   );
   getIt.registerLazySingleton(() => ApiClient(getIt()));
 
-  getIt.registerLazySingleton(SharedPreferencesService.new);
-  getIt.registerLazySingleton(() => ThemeService(getIt()));
+  getIt.registerLazySingletonAsync(() async {
+    final sharedPreferences = await SharedPreferences.getInstance();
+    return SharedPreferencesService(sharedPreferences);
+  });
+  getIt.registerLazySingletonAsync(() async {
+    await getIt.isReady<SharedPreferencesService>();
+    final sharedPreferencesService = await getIt.getAsync<SharedPreferencesService>();
+    return ThemeService(sharedPreferencesService);
+  });
   getIt.registerLazySingleton(() => WeatherRepository(getIt()));
   getIt.registerFactory(() => WeatherViewModel(getIt()));
 
@@ -27,7 +33,8 @@ Future<void> init() async {
 }
 
 Future<void> _initDependencies() async {
-  final themeService = getIt.get<ThemeService>();
+  final themeService = await getIt.getAsync<ThemeService>();
   themeService.init();
+  await getIt.allReady();
 }
 

@@ -11,7 +11,7 @@ Future<void> init() async {
   getIt.registerLazySingletonAsync(SharedPreferences.getInstance);
   getIt.registerLazySingleton(
     () => ApiClient.initDioClient(
-      'https://some-weather-api.com',
+      'https://api.openweathermap.org/data/2.5',
     ),
   );
   getIt.registerLazySingleton(() => ApiClient(getIt()));

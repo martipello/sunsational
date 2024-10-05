@@ -11,3 +11,7 @@
 * **Easy-to-use interface:** Even your grandma can figure it out.
 
 **So, what are you waiting for?** Download Sunsational and may the forecast be with you!
+
+
+
+** To run web please add --web-browser-flag "--disable-web-security" to your run configuration

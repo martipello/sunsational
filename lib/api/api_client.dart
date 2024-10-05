@@ -43,13 +43,20 @@ class ApiClient {
     if (statusCode >= 200 && statusCode < 300 || statusCode == 304) {
       return response.data;
     } else {
-      throw ErrorResponse(
-        (b) => b
-          ..statusCode = response.statusCode
-          ..url = response.realUri.toString()
-          ..error = response.data,
-      );
+      throw _buildErrorResponse(response);
     }
+  }
+
+  ErrorResponse _buildErrorResponse(Response response) {
+    return ErrorResponse(
+      (b) => b
+        ..statusCode = response.statusCode
+        ..url = response.realUri.toString()
+        ..statusMessage = response.statusMessage
+        ..message = response.data['message']
+        ..error = response.data
+        ..parameters.replace(response.data['parameters'] ?? []),
+    );
   }
 
   ErrorResponse _handleDioError(DioException exception) {
@@ -72,11 +79,7 @@ class ApiClient {
             ..message = _connectionErrorMessage,
         );
       case DioExceptionType.badResponse:
-        return ErrorResponse(
-          (p0) => p0
-            ..statusCode = exception.response?.statusCode ?? 449
-            ..message = '${exception.response?.data.toString()}',
-        );
+        return _buildErrorResponse(exception.response!);
     }
   }
 
@@ -114,7 +117,6 @@ class ApiClient {
 class RequestInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    // TODO: implement onRequest
     options.path = '${options.path}&appid=22a30be4d4f6e6923f70e06b00460fc8';
     super.onRequest(options, handler);
   }

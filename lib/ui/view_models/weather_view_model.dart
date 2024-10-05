@@ -28,7 +28,6 @@ class WeatherViewModel {
           error: ErrorResponse(
             (b) => b
               ..error = e
-              ..message = e.toString(),
           ),
         ),
       );

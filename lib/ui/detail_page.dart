@@ -53,9 +53,8 @@ class _DetailPageState extends State<DetailPage> {
             return switch (status) {
               null => _buildLoading(),
               OnLoad() => _buildLoading(),
-              OnError(message: final message, error: final error) => _buildError(
+              OnError(error: final error) => _buildError(
                 error: error,
-                message: message,
               ),
               OnComplete<WeatherResponse?>(data: final data) when data != null => _buildWeatherContent(data),
               (_) => _buildError(message: 'There was an error with the weather!'),
@@ -82,12 +81,11 @@ class _DetailPageState extends State<DetailPage> {
     ErrorResponse? error,
     String? message,
   }) {
-    return SunsationalErrorWidget.detailed(
-      error: error,
-      errorMessage: message,
-      onTryAgain: () {
-        _weatherViewModel.fetchWeather(widget.city);
-      },
+    return Padding(
+      padding: const EdgeInsets.only(top: 56.0, left: 16.0, right: 16.0),
+      child: SunsationalErrorWidget(
+        error: error,
+      ),
     );
   }
 

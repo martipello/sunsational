@@ -4,9 +4,8 @@ sealed class ApiResponse<T> {}
 class OnLoad<T> extends ApiResponse<T>{}
 class OnError<T> extends ApiResponse<T>{
 
-  OnError({this.error, this.message});
+  OnError({this.error});
   final ErrorResponse? error;
-  final String? message;
 }
 class OnComplete<T> extends ApiResponse<T>{
 

@@ -10,7 +10,7 @@ class WeatherRepository {
   final String kWeatherPath = '/weather?q=';
 
   Future<WeatherResponse> getWeather(String city) async {
-    final weatherResponse = await apiClient.get(path: '$kWeatherPath$city');
+    final weatherResponse = await apiClient.get(path: '$kWeatherPath$city&units=metric');
     return WeatherResponse.fromJson(weatherResponse);
   }
 }

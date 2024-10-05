@@ -3,6 +3,7 @@ import 'package:sunsational/extensions/context_extensions.dart';
 import 'package:sunsational/ui/detail_page.dart';
 import 'package:sunsational/ui/widgets/margins.dart';
 import 'package:sunsational/ui/widgets/theme_button.dart';
+import 'package:sunsational/ui/widgets/view_constraint.dart';
 
 const kDashboardName = 'Dashboard';
 const kDashboardRoute = '/dashboard';
@@ -20,41 +21,48 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(context.strings.app_name),
-          actions: const [
-            ThemeButton(),
-          ],
-        ),
-        body: Form(
-          key: formKey,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.baseline,
-              textBaseline: TextBaseline.ideographic,
-              children: [
-                Expanded(
-                  child: _buildLocationTextFormField(),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(context.strings.app_name),
+        actions: const [
+          ThemeButton(),
+        ],
+      ),
+      body: SafeArea(
+        child: ViewConstraint(
+          child: Column(
+            children: [
+              Form(
+                key: formKey,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.ideographic,
+                    children: [
+                      Expanded(
+                        child: _buildLocationTextFormField(context),
+                      ),
+                      kSmallMargin,
+                      _buildSubmitButton(context)
+                    ],
+                  ),
                 ),
-                kSmallMargin,
-                _buildSubmitButton(context)
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 
-  Widget _buildLocationTextFormField() {
+  Widget _buildLocationTextFormField(BuildContext context) {
     return TextFormField(
       autovalidateMode: AutovalidateMode.onUserInteraction,
       controller: locationTextController,
-      decoration: const InputDecoration(
+      decoration: InputDecoration(
         labelText: 'Enter your location',
+        floatingLabelStyle: context.text.bodyMedium?.copyWith(color: context.colors.onSurface),
       ),
       textInputAction: TextInputAction.send,
       onFieldSubmitted: (value) {

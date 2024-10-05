@@ -10,7 +10,7 @@ class WeatherViewModel {
 
   final WeatherRepository _weatherRepository;
 
-  final _weatherStreamController = StreamController<ApiResponse<WeatherResponse?>>();
+  final _weatherStreamController = StreamController<ApiResponse<WeatherResponse?>>.broadcast();
   late final weatherStream = _weatherStreamController.stream;
 
   Future<void> fetchWeather(String city) async {
@@ -32,6 +32,10 @@ class WeatherViewModel {
         ),
       );
     }
+  }
+
+  String getWeatherIconUrl(String icon) {
+    return 'https://openweathermap.org/img/w/$icon.png';
   }
 
   void dispose() {

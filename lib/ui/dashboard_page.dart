@@ -59,7 +59,7 @@ class _DashboardState extends State<Dashboard> {
       textInputAction: TextInputAction.send,
       onFieldSubmitted: (value) {
         if (formKey.currentState!.validate()) {
-          DetailPage.navigate(context);
+          DetailPage.navigate(context, locationTextController.text);
         }
       },
       validator: (value) {
@@ -79,7 +79,7 @@ class _DashboardState extends State<Dashboard> {
       ),
       onPressed: () {
         if (formKey.currentState!.validate()) {
-          DetailPage.navigate(context);
+          DetailPage.navigate(context, locationTextController.text);
         }
       },
       icon: Icon(Icons.send, color: context.colors.onPrimary),

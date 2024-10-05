@@ -92,19 +92,30 @@ class ApiClient {
         responseType: ResponseType.json,
         headers: {
           'Accept': 'application/json, text/plain, */*',
-          //TODO(MS): This should be a secure token not stored in the application use dart define or similar
-          'Authorization': 'zBv33i1TQrTdoPGux8EsRlQCRwUVEhgsXfOSHdUAWnbBvV9w08jExapX',
         },
         validateStatus: (status) {
           if (status == null) return false;
           return status >= 200 && status < 300 || status == 304;
         },
       ),
-    )..interceptors.add(
+    )
+      ..interceptors.add(
         LogInterceptor(requestBody: true, responseBody: true),
+      )
+      ..interceptors.add(
+        RequestInterceptor(),
       );
   }
 
   String get _connectionErrorMessage => 'Either there is an issue with the Internet connection, '
       'or the server is sleeping please try again later...';
+}
+
+class RequestInterceptor extends Interceptor {
+  @override
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+    // TODO: implement onRequest
+    options.path = '${options.path}&appid=22a30be4d4f6e6923f70e06b00460fc8';
+    super.onRequest(options, handler);
+  }
 }

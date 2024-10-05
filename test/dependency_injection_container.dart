@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sunsational/api/api_client.dart';
 import 'package:sunsational/api/repositories/weather_repository.dart';
@@ -27,7 +28,7 @@ Future<void> init() async {
     final sharedPreferencesService = await getIt.getAsync<SharedPreferencesService>();
     return ThemeService(sharedPreferencesService);
   });
-  getIt.registerLazySingleton(() => WeatherRepository(getIt()));
+  getIt.registerLazySingleton<WeatherRepository>(MockWeatherRepository.new);
   getIt.registerFactory(() => WeatherViewModel(getIt()));
 
   await _initDependencies();
@@ -38,4 +39,7 @@ Future<void> _initDependencies() async {
   themeService.init();
   await getIt.allReady();
 }
+
+
+class MockWeatherRepository extends Mock implements WeatherRepository {}
 

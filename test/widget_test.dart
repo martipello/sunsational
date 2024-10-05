@@ -8,6 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:mocktail_image_network/mocktail_image_network.dart';
 import 'package:sunsational/api/repositories/weather_repository.dart';
 import 'package:sunsational/navigation/navigation_config.dart';
 import 'package:sunsational/ui/dashboard_page.dart';
@@ -15,11 +16,13 @@ import 'package:sunsational/ui/detail_page.dart';
 
 import 'dependency_injection_container.dart' as di;
 import 'factories/weather_response_factory.dart';
+import 'mock_image.dart';
 import 'test_app.dart';
 
 void main() {
   setUp(() async {
     await di.getIt.reset();
+    mockImage('https://openweathermap.org/img/w/01d.png');
     await di.init();
   });
 
@@ -63,10 +66,15 @@ void main() {
     final submitButton = find.byTooltip('Submit');
     expect(submitButton, findsOneWidget);
     await tester.tap(submitButton);
-    await tester.pump();
-    expect(find.byType(DetailPage), findsOneWidget);
-    expect(find.byType(CircularProgressIndicator), findsOneWidget);
-    await tester.pumpAndSettle();
-    expect(find.text('New York'), findsOneWidget);
+    await mockNetworkImages(() async {
+      await tester.pump();
+      expect(find.byType(DetailPage), findsOneWidget);
+      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+      await tester.pumpAndSettle();
+      debugDumpApp();
+      expect(find.text('New York'), findsOneWidget);
+      expect(find.text('Clear sky'), findsOneWidget);
+      expect(find.text('20.0 °C'), findsOneWidget);
+    });
   });
 }
